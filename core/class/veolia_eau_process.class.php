@@ -374,11 +374,10 @@ class veolia_eau extends eqLogic {
                 $url_consommation = 'https://'.$url_site.'/mon-espace-suivi-personnalise.aspx?mm='.$month.'&d=';
                 $url_releve_csv = 'https://'.$url_site.'/mon-espace-suivi-personnalise.aspx?ex='.$month.'&mm='.$month.'&d=';
                 log::add('veolia_eau', 'debug',  $url_releve_csv);
-                $datas = array(
-                    'login='.urlencode($this->getConfiguration('login')),
-                    'pass='.urlencode($this->getConfiguration('password')),
-                    'connect=OK',
-                );
+                $datas = [
+                    'login' => $this->getConfiguration('login'),
+                    'pass' => $this->getConfiguration('password'),
+                ];
                 $extension='.csv';
                 break;
 
@@ -488,7 +487,7 @@ class veolia_eau extends eqLogic {
 		log::add('veolia_eau', 'debug', '### LOGIN ON '.$url_login.' ###');
 		curl_setopt($ch, CURLOPT_URL, $url_login);
 		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, implode('&', $datas));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $datas);
 
 		if ($mock_test >= 2) {
             $response = "tbd";
@@ -582,7 +581,6 @@ class veolia_eau extends eqLogic {
 			    curl_setopt($ch, CURLOPT_URL, $url_releve_csv);
 			    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			    curl_setopt($ch, CURLOPT_FILE, $fp);
-                curl_setopt($ch, CURLOPT_POST, TRUE);
 
                 if($mock_test>=2){
                   $response = "tbd";
